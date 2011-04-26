@@ -7,7 +7,7 @@
   }
 
   function _$(s, r) {
-    this.elements = $._select(s, r);
+    this.elements = Object.prototype.hasOwnProperty.call(s, 'length') ? elements : $._select(s, r);
     this.length = this.elements.length;
     for (var i = 0; i < this.length; i++) {
       this[i] = this.elements[i];
