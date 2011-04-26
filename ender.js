@@ -13,7 +13,7 @@
   }
 
   function _$(s, r) {
-    this.elements = typeof s !== 'string' && !s.nodeType && Object.prototype.hasOwnProperty.call(s, 'length') ? s : $._select(s, r);
+    this.elements = typeof s !== 'string' && !s.nodeType && typeof s.length !== 'undefined' ? s : $._select(s, r);
     this.length = this.elements.length;
     for (var i = 0; i < this.length; i++) {
       this[i] = this.elements[i];
