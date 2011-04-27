@@ -1,7 +1,7 @@
 /*!
-  * Ender.js: a small, powerful JavaScript library composed of application agnostic submodules
+  * Ender: open module JavaScript framework
   * copyright Dustin Diaz & Jacob Thornton 2011 (@ded @fat)
-  * https://github.com/ded/Ender.js
+  * https://github.com/ender-js/ender
   * License MIT
   * Built with: {{build_cmd}}
   */
@@ -14,7 +14,7 @@
   }
 
   function _$(s, r) {
-    this.elements = $._select(s, r);
+    this.elements = typeof s !== 'string' && !s.nodeType && typeof s.length !== 'undefined' ? s : $._select(s, r);
     this.length = this.elements.length;
     for (var i = 0; i < this.length; i++) {
       this[i] = this.elements[i];
