@@ -3,12 +3,13 @@
   * copyright Dustin Diaz & Jacob Thornton 2011 (@ded @fat)
   * https://github.com/ded/Ender.js
   * License MIT
+  * Built with: {{build_cmd}}
   */
 !function (context) {
 
   function aug(o, o2) {
     for (var k in o2) {
-      o[k] = o2[k];
+      k != 'noConflict' && (o[k] = o2[k]);
     }
   }
 

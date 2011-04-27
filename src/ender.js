@@ -2,7 +2,7 @@
 
   function aug(o, o2) {
     for (var k in o2) {
-      o[k] = o2[k];
+      k != 'noConflict' && (o[k] = o2[k]);
     }
   }
 
