@@ -1,3 +1,9 @@
+/*!
+  * Ender: open module JavaScript framework
+  * copyright Dustin Diaz & Jacob Thornton 2011 (@ded @fat)
+  * https://github.com/ender-js/ender
+  * License MIT
+  */
 !function (context) {
 
   function aug(o, o2) {
@@ -6,7 +12,7 @@
     }
   }
 
-  function _$(s, r) {
+  function Ender(s, r) {
     this.elements = typeof s !== 'string' && !s.nodeType && typeof s.length !== 'undefined' ? s : $._select(s, r);
     this.length = this.elements.length;
     for (var i = 0; i < this.length; i++) {
@@ -15,12 +21,12 @@
   }
 
   function $(s, r) {
-    return new _$(s, r);
+    return new Ender(s, r);
   }
 
   aug($, {
     ender: function (o, proto) {
-      aug(proto ? _$.prototype : $, o);
+      aug(proto ? Ender.prototype : $, o);
     },
     _select: function () {
       return [];
