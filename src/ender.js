@@ -23,6 +23,7 @@
   }
 
   aug(ender, {
+    _VERSION: 0.1.3,
     ender: function (o, chain) {
       aug(chain ? boosh : ender, o);
     },
