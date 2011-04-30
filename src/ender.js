@@ -1,7 +1,7 @@
 /*!
   * Ender: open module JavaScript framework
   * copyright Dustin Diaz & Jacob Thornton 2011 (@ded @fat)
-  * https://github.com/ender-js/ender
+  * https://ender.no.de
   * License MIT
   */
 !function (context) {
@@ -10,23 +10,21 @@
     for (var k in o2) {
       k != 'noConflict' && (o[k] = o2[k]);
     }
+    return o;
   }
 
-  function Ender(s, r) {
-    this.elements = typeof s !== 'string' && !s.nodeType && typeof s.length !== 'undefined' ? s : $._select(s, r);
-    this.length = this.elements.length;
-    for (var i = 0; i < this.length; i++) {
-      this[i] = this.elements[i];
-    }
+  function boosh(s, r) {
+    var els = typeof s !== 'string' && !s.nodeType && typeof s.length !== 'undefined' ? s : ender._select(s, r);
+    return aug(els, boosh);
   }
 
-  function $(s, r) {
-    return new Ender(s, r);
+  function ender(s, r) {
+    return boosh(s, r);
   }
 
-  aug($, {
-    ender: function (o, proto) {
-      aug(proto ? Ender.prototype : $, o);
+  aug(ender, {
+    ender: function (o, chain) {
+      aug(chain ? boosh : ender, o);
     },
     _select: function () {
       return [];
@@ -34,13 +32,12 @@
   });
 
   var old = context.$;
-  $.noConflict = function () {
+  ender.noConflict = function () {
     context.$ = old;
     return this;
   };
 
-  (typeof module !== 'undefined') && module.exports ?
-    (module.exports = $) :
-    (context.$ = $);
+  (typeof module !== 'undefined') && module.exports && (module.exports = ender);
+  context.ender = context.$ = ender;
 
 }(this);
