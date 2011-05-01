@@ -8,13 +8,14 @@
 
   function aug(o, o2) {
     for (var k in o2) {
-      k != 'noConflict' && (o[k] = o2[k]);
+      k != 'noConflict' && k != '_VERSION' && (o[k] = o2[k]);
     }
     return o;
   }
 
   function boosh(s, r) {
     var els = typeof s !== 'string' && !s.nodeType && typeof s.length !== 'undefined' ? s : ender._select(s, r);
+    els.selector = s;
     return aug(els, boosh);
   }
 
@@ -23,7 +24,7 @@
   }
 
   aug(ender, {
-    _VERSION: '0.1.4',
+    _VERSION: '0.1.5',
     ender: function (o, chain) {
       aug(chain ? boosh : ender, o);
     },
