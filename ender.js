@@ -14,7 +14,7 @@
   }
 
   function boosh(s, r) {
-    var els = typeof s !== 'string' && !s.nodeType && typeof s.length !== 'undefined' ? s : ender._select(s, r);
+    var els = typeof s !== 'string' && !s.nodeType && isFinite(s.length) ? s : ender._select(s, r);
     els.selector = s;
     return aug(els, boosh);
   }
@@ -24,7 +24,7 @@
   }
 
   aug(ender, {
-    _VERSION: '0.1.5',
+    _VERSION: '0.1.6',
     ender: function (o, chain) {
       aug(chain ? boosh : ender, o);
     },
