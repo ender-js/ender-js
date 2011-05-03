@@ -14,8 +14,13 @@
   }
 
   function boosh(s, r) {
-    var els = typeof s !== 'string' && !s.nodeType && isFinite(s.length) ? s : ender._select(s, r);
-    els.selector = s;
+    var els;
+    if (typeof s == 'string' || item.nodeName || item.length && 'item' in item) { //string || node || nodelist
+      els = ender._select(s, r);
+      els.selector = s;
+    } else {
+      els = isFinite(s.length) ? s : [s];
+    }
     return aug(els, boosh);
   }
 
@@ -24,7 +29,7 @@
   }
 
   aug(ender, {
-    _VERSION: '0.1.6',
+    _VERSION: '0.1.7',
     ender: function (o, chain) {
       aug(chain ? boosh : ender, o);
     },
