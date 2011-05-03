@@ -15,7 +15,7 @@
 
   function boosh(s, r) {
     var els;
-    if (ender._select && typeof s == 'string' || item.nodeName || item.length && 'item' in item) { //string || node || nodelist
+    if (ender._select && typeof s == 'string' || s.nodeName || s.length && 'item' in s) { //string || node || nodelist
       els = ender._select(s, r);
       els.selector = s;
     } else {
@@ -29,7 +29,7 @@
   }
 
   aug(ender, {
-    _VERSION: '0.1.7',
+    _VERSION: '0.1.8',
     ender: function (o, chain) {
       aug(chain ? boosh : ender, o);
     }
