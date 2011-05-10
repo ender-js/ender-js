@@ -42,6 +42,6 @@
   };
 
   (typeof module !== 'undefined') && module.exports && (module.exports = ender);
-  context.ender = context.$ = ender;
+  context['ender'] = context['$'] = ender;
 
 }(this);
