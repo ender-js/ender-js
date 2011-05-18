@@ -29,9 +29,21 @@
   }
 
   aug(ender, {
-    _VERSION: '0.1.8',
+    _VERSION: '0.2.0',
     ender: function (o, chain) {
       aug(chain ? boosh : ender, o);
+    }
+  });
+
+  aug(boosh, {
+    forEach: function (fn, scope) {
+      // opt out of native forEach so we can intentionally call our own scope
+      // defaulting to the current item
+      for (var i = 0, l = this.length; i < l; ++i) {
+        i in this && fn.call(scope || this[i], this[i], i, this);
+      }
+      // return self for chaining
+      return this;
     }
   });
 
@@ -42,6 +54,7 @@
   };
 
   (typeof module !== 'undefined') && module.exports && (module.exports = ender);
+  // use subscript notation as extern for Closure compilation
   context['ender'] = context['$'] = ender;
 
 }(this);
