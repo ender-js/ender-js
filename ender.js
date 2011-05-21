@@ -15,7 +15,9 @@
 
   function boosh(s, r) {
     var els;
-    if (ender._select && typeof s == 'string' || s.nodeName || s.length && 'item' in s) { //string || node || nodelist
+    if (s == window) {
+      els = [s];
+    } else if (ender._select && typeof s == 'string' || s.nodeName || s.length && 'item' in s) { //string || node || nodelist
       els = ender._select(s, r);
       els.selector = s;
     } else {
