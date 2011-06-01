@@ -13,9 +13,9 @@
     return o;
   }
 
-  function boosh(s, r) {
-    var els;
-    if (ender._select && typeof s == 'string' || s.nodeName || s.length && 'item' in s || s == window) { //string || node || nodelist || window
+  function boosh(s, r, els) {
+                          // string || node || nodelist || window
+    if (ender._select && (typeof s == 'string' || s.nodeName || s.length && 'item' in s || s == window)) {
       els = ender._select(s, r);
       els.selector = s;
     } else {
@@ -38,7 +38,7 @@
   aug(boosh, {
     forEach: function (fn, scope) {
       // opt out of native forEach so we can intentionally call our own scope
-      // defaulting to the current item
+      // defaulting to the current item and be able to return self
       for (var i = 0, l = this.length; i < l; ++i) {
         i in this && fn.call(scope || this[i], this[i], i, this);
       }
