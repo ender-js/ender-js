@@ -32,7 +32,9 @@
     _VERSION: '0.2.0',
     ender: function (o, chain) {
       aug(chain ? boosh : ender, o);
-    }
+    },
+    // for easy compat to jQuery plugins
+    fn: {}
   });
 
   aug(boosh, {
