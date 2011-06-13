@@ -29,24 +29,24 @@
   }
 
   aug(ender, {
-    _VERSION: '0.2.0',
+    _VERSION: '0.2.4',
     ender: function (o, chain) {
       aug(chain ? boosh : ender, o);
     },
-    // for easy compat to jQuery plugins
-    fn: {}
+    fn: context.$ && context.$.fn || {} // for easy compat to jQuery plugins
   });
 
   aug(boosh, {
-    forEach: function (fn, scope) {
+    forEach: function (fn, scope, i) {
       // opt out of native forEach so we can intentionally call our own scope
       // defaulting to the current item and be able to return self
-      for (var i = 0, l = this.length; i < l; ++i) {
+      for (i = 0, l = this.length; i < l; ++i) {
         i in this && fn.call(scope || this[i], this[i], i, this);
       }
       // return self for chaining
       return this;
-    }
+    },
+    $: ender // handy reference to self
   });
 
   var old = context.$;
