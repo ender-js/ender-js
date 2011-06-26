@@ -6,6 +6,32 @@
   */
 !function (context) {
 
+/*!
+  * Implements simple module system
+  * losely based on CommonJS Modules spec v1.1.1
+  * ============================================
+  */
+
+  var modules = {};
+
+  function require (identifier) {
+    var module = modules[identifier];
+    if (!module) throw new Error("Requested module has not been defined.");
+    return module;
+  }
+
+  function provide (name, what) {
+    return modules[name] = what;
+  }
+
+  context['provide'] = provide;
+  context['require'] = require;
+
+/*!
+  * Implements Ender's $ global access object
+  * =========================================
+  */
+
   function aug(o, o2) {
     for (var k in o2) {
       k != 'noConflict' && k != '_VERSION' && (o[k] = o2[k]);
