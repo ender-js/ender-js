@@ -70,6 +70,26 @@ If you're building a Mobile Webkit or Android application, it may be a good idea
       return (root || document).querySelectorAll(selector);
     };
 
+<h3>CommonJS like Module system</h3>
+
+Ender exposes a module API which is based on CommonJS Modules spec v1.1.1. There are two methods it exposes to do this.
+
+The first method is require. Require takes a string which corresponds to a package name and returns a package object. For example:
+
+
+    var _ = require('underscore'); //return the underscore object
+
+To register a package use the provide method. The provide method looks like this:
+
+    provide("myPackage", myPackageObj);
+
+These methods are particularly useful when working with microlibs which are already CommonJS compliant (like underscore, backbone, etc.). It is also great when you run into libs who are competing for the same namespace. So for example, if microlib "foo" and microlib "bar" both expose a method <code>baz</code> -- you could use require to gain access to the method being overridden -- as well as set which method you would prefer to be on ender's internal chain... for example:
+
+    $.ender({baz: require('foo').baz}); // sets $.baz to be foo's method baz
+    $.ender({baz: require('bar').baz}); // changes $.baz to be bar's method baz
+
+    require('foo').baz() //foo's baz is still accessible at any time.
+
 License
 -------
 Ender (the wrapper) is licensed under MIT - *copyright 2011 Dustin Diaz & Jacob Thornton*
