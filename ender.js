@@ -6,9 +6,9 @@
   */
 !function (context) {
 
- // Implements simple module system
- // losely based on CommonJS Modules spec v1.1.1
- // ============================================
+  // Implements simple module system
+  // losely based on CommonJS Modules spec v1.1.1
+  // ============================================
 
   var modules = {};
 
