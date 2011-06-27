@@ -55,7 +55,7 @@
   }
 
   aug(ender, {
-    _VERSION: '0.2.4',
+    _VERSION: '0.2.5',
     ender: function (o, chain) {
       aug(chain ? boosh : ender, o);
     },
