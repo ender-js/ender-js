@@ -1,5 +1,5 @@
 /*!
-  * Ender: open module JavaScript framework
+  * Ender-JS: open module JavaScript framework (client-lib)
   * copyright Dustin Diaz & Jacob Thornton 2011 (@ded @fat)
   * https://ender.no.de
   * License MIT
