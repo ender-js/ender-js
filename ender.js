@@ -6,11 +6,9 @@
   */
 !function (context) {
 
-/*!
-  * Implements simple module system
-  * losely based on CommonJS Modules spec v1.1.1
-  * ============================================
-  */
+ // Implements simple module system
+ // losely based on CommonJS Modules spec v1.1.1
+ // ============================================
 
   var modules = {};
 
@@ -27,10 +25,8 @@
   context['provide'] = provide;
   context['require'] = require;
 
-/*!
-  * Implements Ender's $ global access object
-  * =========================================
-  */
+  // Implements Ender's $ global access object
+  // =========================================
 
   function aug(o, o2) {
     for (var k in o2) {
