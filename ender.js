@@ -13,7 +13,7 @@
   var modules = {};
 
   function require (identifier) {
-    var module = modules[identifier];
+    var module = modules[identifier] || window[identifier];
     if (!module) throw new Error("Requested module has not been defined.");
     return module;
   }
