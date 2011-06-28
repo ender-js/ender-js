@@ -14,7 +14,7 @@
 
   function require (identifier) {
     var module = modules[identifier] || window[identifier];
-    if (!module) throw new Error("Requested module has not been defined.");
+    if (!module) throw new Error("Requested module '" + identifier + "' has not been defined.");
     return module;
   }
 
