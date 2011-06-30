@@ -6,6 +6,11 @@
   */
 !function (context) {
 
+  // a global object for node.js module compatiblity
+  // ============================================
+
+  context['global'] = context;
+
   // Implements simple module system
   // losely based on CommonJS Modules spec v1.1.1
   // ============================================
