@@ -79,6 +79,6 @@
 
   (typeof module !== 'undefined') && module.exports && (module.exports = ender);
   // use subscript notation as extern for Closure compilation
-  context['ender'] = context['$'] = ender;
+  context['ender'] = context['$'] = context['ender'] || ender;
 
 }(this);
