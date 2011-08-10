@@ -18,6 +18,10 @@
   var modules = {};
 
   function require (identifier) {
+    if ('./' === identifier.substr(0,2)) {
+      identifier = identifier.substr(2);
+    }
+
     var module = modules[identifier] || window[identifier];
     if (!module) throw new Error("Requested module '" + identifier + "' has not been defined.");
     return module;
