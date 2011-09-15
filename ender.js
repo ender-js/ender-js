@@ -60,7 +60,7 @@
     ender: function (o, chain) {
       aug(chain ? boosh : ender, o);
     },
-    fn: context.$ && context.$.fn || {} // for easy compat to jQuery plugins
+    fn: boosh // for easy compat with jQuery plugins
   });
 
   aug(boosh, {
