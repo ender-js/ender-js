@@ -25,7 +25,7 @@
   }
 
   function provide (name, what) {
-    return modules[name] = what
+    return (modules[name] = what)
   }
 
   context['provide'] = provide
