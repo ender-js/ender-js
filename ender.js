@@ -53,7 +53,7 @@
   }
 
   aug(ender, {
-      _VERSION: '0.3.3'
+      _VERSION: '0.3.4'
     , fn: context.$ && context.$.fn || {} // for easy compat to jQuery plugins
     , ender: function (o, chain) {
         aug(chain ? boosh : ender, o)
@@ -79,7 +79,7 @@
     return this
   }
 
-  (typeof module !== 'undefined') && module.exports && (module.exports = ender)
+  if (typeof module !== 'undefined' && module.exports) module.exports = ender
   // use subscript notation as extern for Closure compilation
   context['ender'] = context['$'] = context['ender'] || ender
 
