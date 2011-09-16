@@ -53,11 +53,14 @@
   }
 
   aug(ender, {
-    _VERSION: '0.3.2',
-    ender: function (o, chain) {
-      aug(chain ? boosh : ender, o)
-    },
-    fn: context.$ && context.$.fn || {} // for easy compat to jQuery plugins
+      _VERSION: '0.3.3'
+    , fn: context.$ && context.$.fn || {} // for easy compat to jQuery plugins
+    , ender: function (o, chain) {
+        aug(chain ? boosh : ender, o)
+      }
+    , _select: function (s, r) {
+        return (r || document).querySelectorAll(s)
+      }
   })
 
   aug(boosh, {
