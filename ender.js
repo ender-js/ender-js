@@ -54,7 +54,7 @@
 
   aug(ender, {
       _VERSION: '0.3.4'
-    , fn: context.$ && context.$.fn || {} // for easy compat to jQuery plugins
+    , fn: boosh // for easy compat to jQuery plugins
     , ender: function (o, chain) {
         aug(chain ? boosh : ender, o)
       }
