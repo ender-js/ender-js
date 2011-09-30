@@ -1,7 +1,7 @@
 {
     "name": "ender-js"
   , "description": "no-library library"
-  , "version": "0.3.4"
+  , "version": "0.3.5"
   , "keywords": ["ender", "modules", "library", "framework", "packager"]
   , "main": "./ender.js"
   , "homepage": "http://ender.no.de"
