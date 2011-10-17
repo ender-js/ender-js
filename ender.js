@@ -19,6 +19,7 @@
     , old = context.$
 
   function require (identifier) {
+    // modules can be required from ender's build system, or found on the window
     var module = modules[identifier] || window[identifier]
     if (!module) throw new Error("Requested module '" + identifier + "' has not been defined.")
     return module
@@ -31,9 +32,6 @@
   context['provide'] = provide
   context['require'] = require
 
-  // Implements Ender's $ global access object
-  // =========================================
-
   function aug(o, o2) {
     for (var k in o2) k != 'noConflict' && k != '_VERSION' && (o[k] = o2[k])
     return o
@@ -41,7 +39,7 @@
 
   function boosh(s, r, els) {
     // string || node || nodelist || window
-    if (ender._select && (typeof s == 'string' || s.nodeName || s.length && 'item' in s || s == window)) {
+    if (typeof s == 'string' || s.nodeName || (s.length && 'item' in s) || s == window) {
       els = ender._select(s, r)
       els.selector = s
     } else els = isFinite(s.length) ? s : [s]
@@ -53,7 +51,7 @@
   }
 
   aug(ender, {
-      _VERSION: '0.3.4'
+      _VERSION: '0.3.6'
     , fn: boosh // for easy compat to jQuery plugins
     , ender: function (o, chain) {
         aug(chain ? boosh : ender, o)
