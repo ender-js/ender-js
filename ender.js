@@ -17,6 +17,7 @@
 
   var modules = {}
     , old = context.$
+    , enderfy
 
   function require (identifier) {
     // modules can be required from ender's build system, or found on the window
@@ -38,12 +39,27 @@
   }
 
   function boosh(s, r, els) {
-    // string || node || nodelist || window
-    if (typeof s == 'string' || s.nodeName || (s.length && 'item' in s) || s == window) {
+    if (typeof s == 'undefined') {
+      els = []
+    } else if (typeof s == 'string' || s.nodeName || (s.length && 'item' in s) || s == window) {
+      // string || node || nodelist || window
       els = ender._select(s, r)
       els.selector = s
-    } else els = isFinite(s.length) ? s : [s]
-    return aug(els, boosh)
+    } else
+      els = isFinite(s.length) ? s : [s]
+    return enderfy(els)
+  }
+
+  if (({}).__proto__) {
+    boosh.__proto__ = Array.prototype
+    enderfy = function (o) {
+      o.__proto__ = boosh
+      return o
+    }
+  } else {
+    enderfy = function (o) {
+      return aug(o, boosh)
+    }
   }
 
   function ender(s, r) {
