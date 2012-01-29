@@ -21,13 +21,13 @@
 
   function require (identifier) {
     // modules can be required from ender's build system, or found on the window
-    var module = modules[identifier] || window[identifier]
+    var module = modules['$' + identifier] || window[identifier]
     if (!module) throw new Error("Requested module '" + identifier + "' has not been defined.")
     return module
   }
 
   function provide (name, what) {
-    return (modules[name] = what)
+    return (modules['$' + name] = what)
   }
 
   context['provide'] = provide
@@ -39,14 +39,15 @@
   }
 
   function boosh(s, r, els) {
+    // string || node || nodelist || window
     if (typeof s == 'undefined') {
       els = []
     } else if (typeof s == 'string' || s.nodeName || (s.length && 'item' in s) || s == window) {
-      // string || node || nodelist || window
       els = ender._select(s, r)
       els.selector = s
-    } else
+    } else {
       els = isFinite(s.length) ? s : [s]
+    }
     return enderfy(els)
   }
 
@@ -66,26 +67,29 @@
     return boosh(s, r)
   }
 
+  ender._VERSION = '0.3.6'
+
   aug(ender, {
-      _VERSION: '0.3.6'
-    , fn: boosh // for easy compat to jQuery plugins
+      fn: boosh // for easy compat to jQuery plugins
     , ender: function (o, chain) {
         aug(chain ? boosh : ender, o)
       }
     , _select: function (s, r) {
-        return (r || document).querySelectorAll(s)
+        if (typeof s == 'string') return (r || document).querySelectorAll(s)
+        if (s.nodeName) return [ s ]
+        return s
       }
   })
 
   aug(boosh, {
-    forEach: function (fn, scope, i) {
-      // opt out of native forEach so we can intentionally call our own scope
-      // defaulting to the current item and be able to return self
-      for (i = 0, l = this.length; i < l; ++i) i in this && fn.call(scope || this[i], this[i], i, this)
-      // return self for chaining
-      return this
-    },
-    $: ender // handy reference to self
+      forEach: function (fn, scope, i) {
+        // opt out of native forEach so we can intentionally call our own scope
+        // defaulting to the current item and be able to return self
+        for (i = 0, l = this.length; i < l; ++i) i in this && fn.call(scope || this[i], this[i], i, this)
+        // return self for chaining
+        return this
+      }
+    , $: ender // handy reference to self
   })
 
   ender.noConflict = function () {

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 require('smoosh').config({
   "JAVASCRIPT": {
       "DIST_DIR": "./"
@@ -20,5 +22,6 @@ require('smoosh').config({
     , "laxbreak": true
     , "eqeqeq": false
     , "eqnull": true
+    , "laxcomma": true
   }
 }).run().analyze()

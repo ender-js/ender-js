@@ -13,7 +13,8 @@
       , "Jacob Thornton <jacobthornton@gmail.com> (https://github.com/fat)"
     ]
   , "devDependencies": {
-      "smoosh": "*"
+        "smoosh": "*"
+      , "sink-test": "*"
     }
   , "scripts": {
       "make": "node make.js"
