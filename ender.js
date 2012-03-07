@@ -1,6 +1,6 @@
 /*!
   * Ender: open module JavaScript framework (client-lib)
-  * copyright Dustin Diaz & Jacob Thornton 2011 (@ded @fat)
+  * copyright Dustin Diaz & Jacob Thornton 2011-2012 (@ded @fat)
   * http://ender.no.de
   * License MIT
   */
@@ -54,7 +54,7 @@
     return boosh(s, r)
   }
 
-  ender._VERSION = '0.3.6'
+  ender._VERSION = '0.3.7'
 
   aug(ender, {
       fn: boosh // for easy compat to jQuery plugins
@@ -69,7 +69,7 @@
   })
 
   aug(boosh, {
-      forEach: function (fn, scope, i) {
+      forEach: function (fn, scope, i, l) {
         // opt out of native forEach so we can intentionally call our own scope
         // defaulting to the current item and be able to return self
         for (i = 0, l = this.length; i < l; ++i) i in this && fn.call(scope || this[i], this[i], i, this)
