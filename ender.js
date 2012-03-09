@@ -1,8 +1,8 @@
 /*!
-  * Ender: open module JavaScript framework (client-lib)
-  * copyright Dustin Diaz & Jacob Thornton 2011-2012 (@ded @fat)
-  * http://ender.no.de
-  * License MIT
+  * =============================================================
+  * Ender: open module JavaScript framework (https://ender.no.de)
+  * Build: ender build underscore coffee-script --includeLib
+  * =============================================================
   */
 !function (context) {
 
@@ -16,17 +16,98 @@
   // ============================================
 
   var modules = {}
-    , old = context.$
+    , loaders = {}
+    , old     = context.$
+    , _path   
+
+  // Implements some basic path operations for
+  // helping requiring relative modules.
+  // =========================================
+  _path = {
+      separator: '/'
+    , join: function(a, b) { return a && b ? a + _path.separator + b : (a || b) }
+    , normalize: function(dir) {
+      var names = dir.split(_path.separator)
+      var path = []  
+      for (var i = 0, l = names.length; i < l; i++) {
+        var name = names[i]
+        if (name === '' && path.length > 0) {
+          // dont include it on path 
+        } else if (name === '.') {
+          // dont include it on path
+        } else if (name == '..') {
+          path.pop() 
+        } else {
+          path.push(name)
+        }
+      }
+      return path.join(_path.separator)
+    }
+    , dirname: function(name){
+      var names = _path.normalize(name).split(_path.separator)
+      var path = names.slice(0, names.length - 1)
+      return path.length == 0 ? "." : path.join(_path.separator)
+    }
+    , basename: function(name) {
+      var names = _path.normalize(name).split(_path.separator)
+      return names[names.length - 1]
+    }
+  }
+
+  // export _path as the '/path' module.
+  loaders['/path'] = function() { return _path }
 
   function require (identifier) {
-    // modules can be required from ender's build system, or found on the window
-    var module = modules['$' + identifier] || window[identifier]
-    if (!module) throw new Error("Requested module '" + identifier + "' has not been defined.")
+    identifier = _path.normalize(identifier)
+    
+    // modules can be required from ender's build system, or found on
+    // the window
+    var module = (identifier[0] === '/' && modules[identifier]) ||
+                 modules['$' + identifier] || (typeof window != 'undefined' && window[identifier])
+    
+    if (!module) {
+      var loader = (identifier[0] === '/' && loaders[identifier]) || loaders['$'+identifier]
+      if (!loader) throw new Error("Requested module '" + identifier + "' has not been defined.")
+
+      if (loader.moduleName && modules['$'+loader.moduleName]) return modules['$'+loader.moduleName]
+      if (loader.modulePath && modules['/'+loader.modulePath]) return modules['/'+loader.modulePath]
+      
+      requirer = loader.modulePath ? require.relative(loader.modulePath, loader.moduleName) : require
+      module = loader(requirer)
+    }
+    
     return module
   }
 
+  require.def = function(name, path, loader) {
+    loader.moduleName = name
+    loader.modulePath = path
+    if (name) loaders['$'+name] = loader
+    loaders['/'+path] = loader
+  }
+
+  require.relative = function(path, name) {
+    relative = function(identifier) {
+      if(/^\./.test(identifier)) {
+        identifier = _path.join(path, identifier)
+      }
+      return require( identifier )
+    }
+    relative.ender = ender
+    relative.dirname =  _path.dirname(path)
+    relative.filename = path
+    relative.provide = function(exports) {
+      if (name) provide(name, exports)
+      provide('/'+path, exports)
+      return exports
+    }
+    return relative
+  }
+
   function provide (name, what) {
-    return (modules['$' + name] = what)
+    if (name[0] === '/' || name[0] === '$') { modules[name] = what }
+    else { modules['$' + name] = what }
+    return what
   }
 
   context['provide'] = provide
