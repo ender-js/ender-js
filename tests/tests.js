@@ -21,13 +21,6 @@
       ok(typeof ender._select == 'function', 'ender._select is a function')
     })
 
-    test('Testing noConflict', 3, function () {
-      ok(typeof ender.noConflict == 'function', 'ender.noConflict() is a function')
-      var e = $.noConflict()
-      ok(e == ender, 'ender.noConflict() returns ender object')
-      ok(typeof $ == 'undefined', '$ is now undefined in global context and is a function')
-    })
-
     test('Testing require() and provide()', 5, function () {
       var ex
         , foobar = { foo: 'bar' }
@@ -96,6 +89,22 @@
       ok(ender().test2fn2 === fn2, 'Augmenting call-chain with ender.fn works')
       ok(typeof ender.test2fn2 == 'undefined', 'Augmenting with ender.fn doesn\'t augment global ender')
 
+    })
+
+    test('Testing noConflict', function (done) {
+      ok(typeof ender.noConflict == 'function', 'ender.noConflict() is a function')
+      var oldProvide = provide
+        , oldRequire = require
+      var e = $.noConflict(function (req, pro, e) {
+        ok(req == oldRequire, 'old require is receveived')
+        ok(pro == oldProvide, 'old provide is receveived')
+        ok(e == ender, 'ender.noConflict() returns ender object in callback')
+      })
+      ok(e == ender, 'ender.noConflict() returns ender object')
+      assert.isUndefined($, '$ is now undefined in global context and is a function')
+      assert.isUndefined(provide, 'provide is now undefined')
+      assert.isUndefined(require, 'require is now undefined')
+      done()
     })
 
   })

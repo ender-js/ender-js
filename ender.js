@@ -4,7 +4,7 @@
   * http://ender.no.de
   * License MIT
   */
-!function (context) {
+(function (context) {
 
   // a global object for node.js module compatiblity
   // ============================================
@@ -17,11 +17,13 @@
 
   var modules = {}
     , old = context.$
+    , oldRequire = context['require']
+    , oldProvide = context['provide']
 
   function require (identifier) {
     // modules can be required from ender's build system, or found on the window
     var module = modules['$' + identifier] || window[identifier]
-    if (!module) throw new Error("Requested module '" + identifier + "' has not been defined.")
+    if (!module) throw new Error("Ender Error: Requested module '" + identifier + "' has not been defined.")
     return module
   }
 
@@ -37,6 +39,12 @@
     return o
   }
 
+  /**
+    * main Ender return object
+    * @param s a CSS selector or DOM node(s)
+    * @param r a root node(s)
+    * @return {array} an Ender chainable collection
+    */
   function boosh(s, r, els) {
     // string || node || nodelist || window
     if (typeof s == 'undefined') {
@@ -54,7 +62,7 @@
     return boosh(s, r)
   }
 
-  ender._VERSION = '0.3.7'
+  ender._VERSION = '0.3.8'
 
   aug(ender, {
       fn: boosh // for easy compat to jQuery plugins
@@ -79,8 +87,14 @@
     , $: ender // handy reference to self
   })
 
-  ender.noConflict = function () {
+  // use callback to receive Ender's require & provide
+  ender.noConflict = function (callback) {
     context.$ = old
+    if (callback) {
+      context['provide'] = oldProvide
+      context['require'] = oldRequire
+      callback(require, provide, this)
+    }
     return this
   }
 
@@ -88,4 +102,4 @@
   // use subscript notation as extern for Closure compilation
   context['ender'] = context['$'] = context['ender'] || ender
 
-}(this);
+}(this));
