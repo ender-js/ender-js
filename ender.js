@@ -16,7 +16,7 @@
   // ============================================
 
   var modules = {}
-    , old = context.$
+    , old = context['$']
     , oldRequire = context['require']
     , oldProvide = context['provide']
 
@@ -45,46 +45,52 @@
     * @param r a root node(s)
     * @return {array} an Ender chainable collection
     */
-  function boosh(s, r, els) {
+  function Ender(s, r) {
+    var elements
+      , i
+
+    this['selector'] = s
     // string || node || nodelist || window
     if (typeof s == 'undefined') {
-      els = []
+      elements = []
+      this['selector'] = ''
     } else if (typeof s == 'string' || s.nodeName || (s.length && 'item' in s) || s == window) {
-      els = ender._select(s, r)
-      els.selector = s
+      elements = ender._select(s, r)
     } else {
-      els = isFinite(s.length) ? s : [s]
+      elements = isFinite(s.length) ? s : [s]
     }
-    return aug(els, boosh)
+    this.length = elements.length
+    for (i = this.length; i--;) this[i] = elements[i]
   }
 
   function ender(s, r) {
-    return boosh(s, r)
+    return new Ender(s, r)
   }
 
-  ender._VERSION = '0.3.8'
+
+  ender._VERSION = '0.4.0-dev'
 
   aug(ender, {
-      fn: boosh // for easy compat to jQuery plugins
-    , ender: function (o, chain) {
-        aug(chain ? boosh : ender, o)
+      'fn': Ender.prototype // for easy compat to jQuery plugins
+    , 'ender': function (o, chain) {
+        aug(chain ? Ender.prototype : ender, o)
       }
-    , _select: function (s, r) {
+    , '_select': function (s, r) {
         if (typeof s == 'string') return (r || document).querySelectorAll(s)
         if (s.nodeName) return [ s ]
         return s
       }
   })
 
-  aug(boosh, {
-      forEach: function (fn, scope, i, l) {
+  aug(Ender.prototype, {
+      'forEach': function (fn, scope, i, l) {
         // opt out of native forEach so we can intentionally call our own scope
         // defaulting to the current item and be able to return self
         for (i = 0, l = this.length; i < l; ++i) i in this && fn.call(scope || this[i], this[i], i, this)
         // return self for chaining
         return this
       }
-    , $: ender // handy reference to self
+    , '$': ender // handy reference to self
   })
 
   // use callback to receive Ender's require & provide

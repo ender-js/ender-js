@@ -17,7 +17,7 @@
     test('Testing ender properties', 4, function () {
       ok(typeof ender._VERSION == 'string' && /^\d+\.\d+\.\d+(-.+)?$/.test(ender._VERSION), 'ender._VERSION is a semver key')
       ok(typeof ender.ender == 'function', 'ender.ender is a function')
-      ok(typeof ender.fn == 'function', 'ender.fn is a function')
+      ok(typeof ender.fn == 'object', 'ender.fn is a function')
       ok(typeof ender._select == 'function', 'ender._select is a function')
     })
 
