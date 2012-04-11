@@ -40,20 +40,20 @@
   }
 
   /**
-    * main Ender return object
-    * @param s a CSS selector or DOM node(s)
-    * @param r a root node(s)
-    * @return {array} an Ender chainable collection
-    */
+   * main Ender return object
+   * @constructor
+   * @param {Array|Node|string} s a CSS selector or DOM node(s)
+   * @param {Array.|Node} r a root node(s)
+   */
   function Ender(s, r) {
     var elements
       , i
 
-    this['selector'] = s
+    this.selector = s
     // string || node || nodelist || window
     if (typeof s == 'undefined') {
       elements = []
-      this['selector'] = ''
+      this.selector = ''
     } else if (typeof s == 'string' || s.nodeName || (s.length && 'item' in s) || s == window) {
       elements = ender._select(s, r)
     } else {
@@ -63,35 +63,41 @@
     for (i = this.length; i--;) this[i] = elements[i]
   }
 
+  /**
+   * @param {function(el, i, inst)} fn
+   * @param {Object} opt_scope
+   * @returns {Ender}
+   */
+  Ender.prototype.forEach = function (fn, opt_scope) {
+    var i, l
+    // opt out of native forEach so we can intentionally call our own scope
+    // defaulting to the current item and be able to return self
+    for (i = 0, l = this.length; i < l; ++i) i in this && fn.call(opt_scope || this[i], this[i], i, this)
+    // return self for chaining
+    return this
+  }
+
+  Ender.prototype.$ = ender // handy reference to self
+
+
   function ender(s, r) {
     return new Ender(s, r)
   }
 
+  ender._VERSION = '0.4.1-dev'
 
-  ender._VERSION = '0.4.0-dev'
+  ender.fn = Ender.prototype // for easy compat to jQuery plugins
 
-  aug(ender, {
-      'fn': Ender.prototype // for easy compat to jQuery plugins
-    , 'ender': function (o, chain) {
-        aug(chain ? Ender.prototype : ender, o)
-      }
-    , '_select': function (s, r) {
-        if (typeof s == 'string') return (r || document).querySelectorAll(s)
-        if (s.nodeName) return [ s ]
-        return s
-      }
-  })
+  ender.ender = function (o, chain) {
+    aug(chain ? Ender.prototype : ender, o)
+  }
 
-  aug(Ender.prototype, {
-      'forEach': function (fn, scope, i, l) {
-        // opt out of native forEach so we can intentionally call our own scope
-        // defaulting to the current item and be able to return self
-        for (i = 0, l = this.length; i < l; ++i) i in this && fn.call(scope || this[i], this[i], i, this)
-        // return self for chaining
-        return this
-      }
-    , '$': ender // handy reference to self
-  })
+  ender._select = function (s, r) {
+    if (typeof s == 'string') return (r || document).querySelectorAll(s)
+    if (s.nodeName) return [ s ]
+    return s
+  }
+
 
   // use callback to receive Ender's require & provide
   ender.noConflict = function (callback) {
