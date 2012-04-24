@@ -77,18 +77,18 @@
     return this
   }
 
-  Ender.prototype['$'] = ender // handy reference to self
+  Ender.prototype.$ = ender // handy reference to self
 
 
   function ender(s, r) {
     return new Ender(s, r)
   }
 
-  ender['_VERSION'] = '0.4.2-dev'
+  ender['_VERSION'] = '0.4.3-dev'
 
-  ender['fn'] = Ender.prototype // for easy compat to jQuery plugins
+  ender.fn = Ender.prototype // for easy compat to jQuery plugins
 
-  ender['ender'] = function (o, chain) {
+  ender.ender = function (o, chain) {
     aug(chain ? Ender.prototype : ender, o)
   }
 
