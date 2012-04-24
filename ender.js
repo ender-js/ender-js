@@ -68,7 +68,7 @@
    * @param {Object} opt_scope
    * @returns {Ender}
    */
-  Ender.prototype.forEach = function (fn, opt_scope) {
+  Ender.prototype['forEach'] = function (fn, opt_scope) {
     var i, l
     // opt out of native forEach so we can intentionally call our own scope
     // defaulting to the current item and be able to return self
@@ -77,31 +77,31 @@
     return this
   }
 
-  Ender.prototype.$ = ender // handy reference to self
+  Ender.prototype['$'] = ender // handy reference to self
 
 
   function ender(s, r) {
     return new Ender(s, r)
   }
 
-  ender._VERSION = '0.4.1-dev'
+  ender['_VERSION'] = '0.4.2-dev'
 
-  ender.fn = Ender.prototype // for easy compat to jQuery plugins
+  ender['fn'] = Ender.prototype // for easy compat to jQuery plugins
 
-  ender.ender = function (o, chain) {
+  ender['ender'] = function (o, chain) {
     aug(chain ? Ender.prototype : ender, o)
   }
 
   ender._select = function (s, r) {
     if (typeof s == 'string') return (r || document).querySelectorAll(s)
-    if (s.nodeName) return [ s ]
+    if (s.nodeName) return [s]
     return s
   }
 
 
   // use callback to receive Ender's require & provide
   ender.noConflict = function (callback) {
-    context.$ = old
+    context['$'] = old
     if (callback) {
       context['provide'] = oldProvide
       context['require'] = oldRequire
