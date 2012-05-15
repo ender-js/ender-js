@@ -85,19 +85,16 @@
   }
 
   ender['_VERSION'] = '0.4.3-dev'
-
-  ender.fn = Ender.prototype // for easy compat to jQuery plugins
+  
+  ender.prototype = ender.fn = Ender.prototype // for easy compat to jQuery plugins
 
   ender.ender = function (o, chain) {
     aug(chain ? Ender.prototype : ender, o)
   }
 
   ender._select = function (s, r) {
-    if (typeof s == 'string') return (r || document).querySelectorAll(s)
-    if (s.nodeName) return [s]
-    return s
+    return !s ? [] : s.nodeName ? [s] : (r || document).querySelectorAll(s)  
   }
-
 
   // use callback to receive Ender's require & provide
   ender.noConflict = function (callback) {
