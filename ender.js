@@ -42,8 +42,8 @@
   /**
    * main Ender class
    * @constructor
-   * @param {Array|Node|string} s a CSS selector or DOM node(s)
-   * @param {(Array|Node)=} opt_r a root node(s)
+   * @param {Array.<Element>|Element|Ender|string} s a CSS selector or DOM node(s)
+   * @param {Array.<Element>|Element|Ender|string=} opt_r a root node(s)
    */
   function Ender(s, opt_r) {
     var elements
@@ -77,14 +77,15 @@
     return this
   }
 
+  /** @type {Ender} */
   Ender.prototype.$ = ender // handy reference to self
 
 
-  function ender(s, r) {
-    return new Ender(s, r)
+  function ender(s, opt_r) {
+    return new Ender(s, opt_r)
   }
 
-  ender['_VERSION'] = '0.4.4-dev'
+  ender['_VERSION'] = '0.4.5-dev'
 
   ender.fn = Ender.prototype // for easy compat to jQuery plugins
 
