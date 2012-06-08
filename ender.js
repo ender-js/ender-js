@@ -40,12 +40,12 @@
   }
 
   /**
-   * main Ender return object
+   * main Ender class
    * @constructor
    * @param {Array|Node|string} s a CSS selector or DOM node(s)
-   * @param {Array.|Node} r a root node(s)
+   * @param {(Array|Node)=} opt_r a root node(s)
    */
-  function Ender(s, r) {
+  function Ender(s, opt_r) {
     var elements
       , i
 
@@ -55,7 +55,7 @@
       elements = []
       this.selector = ''
     } else if (typeof s == 'string' || s.nodeName || (s.length && 'item' in s) || s == window) {
-      elements = ender._select(s, r)
+      elements = ender._select(s, opt_r)
     } else {
       elements = isFinite(s.length) ? s : [s]
     }
@@ -64,9 +64,9 @@
   }
 
   /**
-   * @param {function(el, i, inst)} fn
-   * @param {Object} opt_scope
-   * @returns {Ender}
+   * @param {function(Element, number, Ender)} fn
+   * @param {Object=} opt_scope
+   * @return {Ender}
    */
   Ender.prototype['forEach'] = function (fn, opt_scope) {
     var i, l
@@ -84,7 +84,7 @@
     return new Ender(s, r)
   }
 
-  ender['_VERSION'] = '0.4.3-dev'
+  ender['_VERSION'] = '0.4.4-dev'
 
   ender.fn = Ender.prototype // for easy compat to jQuery plugins
 
