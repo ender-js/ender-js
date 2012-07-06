@@ -17,6 +17,7 @@
 
   var modules = {}
     , old = context['$']
+    , oldEnder = context['ender']
     , oldRequire = context['require']
     , oldProvide = context['provide']
 
@@ -99,12 +100,13 @@
   }
 
 
-  // use callback to receive Ender's require & provide
+  // use callback to receive Ender's require & provide and remove them from global
   ender.noConflict = function (callback) {
     context['$'] = old
     if (callback) {
       context['provide'] = oldProvide
       context['require'] = oldRequire
+      context['ender'] = oldEnder
       callback(require, provide, this)
     }
     return this
@@ -112,6 +114,6 @@
 
   if (typeof module !== 'undefined' && module.exports) module.exports = ender
   // use subscript notation as extern for Closure compilation
-  context['ender'] = context['$'] = context['ender'] || ender
+  context['ender'] = context['$'] = ender
 
 }(this));
