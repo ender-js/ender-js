@@ -107,7 +107,7 @@
       context['provide'] = oldProvide
       context['require'] = oldRequire
       context['ender'] = oldEnder
-      callback(require, provide, this)
+      if (typeof callback == 'function') callback(require, provide, this)
     }
     return this
   }
