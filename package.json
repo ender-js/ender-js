@@ -1,14 +1,20 @@
 {
-    "name": "ender-js"
-  , "description": "no-library library"
-  , "version": "0.5.0"
+    "name": "ender-core"
+  , "description": "core client library of Ender"
+  , "version": "1.0.0"
   , "keywords": ["ender", "modules", "library", "framework", "packager"]
   , "main": "./ender.js"
-  , "homepage": "http://ender.no.de"
+  , "ender": {
+        "bare": true
+      , "bridge": "./bridge.js"
+    }
+  , "homepage": "http://enderjs.com"
+  , "engines": {
+      "node": ">= 0.4.0"
+    }
   , "authors": [
         "Dustin Diaz <dustin@dustindiaz.com> (http://dustindiaz.com)"
       , "Jacob Thornton <jacobthornton@gmail.com> (https://github.com/fat)"
-      , "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
     ]
   , "devDependencies": {
         "smoosh": "*"
@@ -16,9 +22,5 @@
     }
   , "scripts": {
       "make": "node make.js"
-    }
-  , "repository": {
-        "type": "git"
-      , "url": "https://github.com/ender-js/ender-js.git"
     }
 }
