@@ -1,16 +1,14 @@
 {
     "name": "ender-js"
   , "description": "no-library library"
-  , "version": "0.4.4-1"
+  , "version": "0.4.5"
   , "keywords": ["ender", "modules", "library", "framework", "packager"]
   , "main": "./ender.js"
   , "homepage": "http://ender.no.de"
-  , "engines": {
-      "node": ">= 0.4.0"
-    }
   , "authors": [
         "Dustin Diaz <dustin@dustindiaz.com> (http://dustindiaz.com)"
       , "Jacob Thornton <jacobthornton@gmail.com> (https://github.com/fat)"
+      , "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
     ]
   , "devDependencies": {
         "smoosh": "*"
