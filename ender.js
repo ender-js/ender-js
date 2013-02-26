@@ -81,9 +81,9 @@
   }
 
   /**
-   * @param {function(el, i, inst)} fn
-   * @param {Object} opt_scope
-   * @returns {Ender}
+   * @param   {function(*, number, Ender)} fn
+   * @param   {Object=} opt_scope
+   * @return  {Ender}
    */
   Ender.prototype['forEach'] = function (fn, opt_scope) {
     var i, l
