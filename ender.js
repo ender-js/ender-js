@@ -21,13 +21,20 @@
     , oldRequire = context['require']
     , oldProvide = context['provide']
 
-  function require(identifier) {
+  /**
+   * @param {string} name
+   */
+  function require(name) {
     // modules can be required from ender's build system, or found on the window
-    var module = modules['$' + identifier] || window[identifier]
-    if (!module) throw new Error("Ender Error: Requested module '" + identifier + "' has not been defined.")
+    var module = modules['$' + name] || window[name]
+    if (!module) throw new Error("Ender Error: Requested module '" + name + "' has not been defined.")
     return module
   }
 
+  /**
+   * @param {string} name
+   * @param {*}      what
+   */
   function provide(name, what) {
     return (modules['$' + name] = what)
   }
@@ -41,7 +48,6 @@
   }
   
   /**
-   * Discern an array-like object and get its length.
    * @param   {*}  o  is an item to count
    * @return  {number|boolean}
    */
@@ -113,6 +119,10 @@
   // Sync the prototypes for jQuery compatibility
   ender['fn'] = ender.prototype = Ender.prototype 
 
+  /**
+   * @param {Object|Function} o
+   * @param {boolean=}        chain
+   */
   ender['ender'] = function (o, chain) {
     aug(chain ? Ender.prototype : ender, o)
   }
@@ -125,6 +135,9 @@
     return s ? (r || document).querySelectorAll(s) : []
   }
 
+  /**
+   * @param {Function} fn
+   */
   ender['_closure'] = function (fn) {
     fn.call(document, ender)
   }
