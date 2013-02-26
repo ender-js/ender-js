@@ -63,13 +63,13 @@
     if (typeof item == 'string')
       // Start @ strings so the result parlays into the other checks
       // The .selector prop only applies to strings
-      item = ender._select(this.selector = item, root)
+      item = ender['_select'](this['selector'] = item, root)
 
     if (null == item)
       return this // Do not wrap null|undefined
 
     if (typeof item == 'function')
-      ender._closure(item, root)
+      ender['_closure'](item, root)
 
     // DOM node | scalar | not array-like
     else if (false === (i = count(item)))
@@ -116,18 +116,18 @@
     aug(chain ? Ender.prototype : ender, o)
   }
 
-  ender._select = function (s, r) {
+  ender['_select'] = function (s, r) {
     if (typeof s == 'string') return (r || document).querySelectorAll(s)
     if (s.nodeName) return [s]
     return s
   }
   
-  ender._closure = function (fn) {
+  ender['_closure'] = function (fn) {
     fn.call(document, ender)
   }
 
   // use callback to receive Ender's require & provide and remove them from global
-  ender.noConflict = function (callback) {
+  ender['noConflict'] = function (callback) {
     context['$'] = old
     if (callback) {
       context['provide'] = oldProvide
