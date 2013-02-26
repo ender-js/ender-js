@@ -4,7 +4,7 @@
   * http://ender.jit.su
   * License MIT
   */
-(function (context) {
+(function (context, window, document) {
 
   // a global object for node.js module compatiblity
   // ============================================
@@ -87,7 +87,7 @@
     return new Ender(s, r)
   }
 
-  ender['_VERSION'] = '0.4.5'
+  ender['_VERSION'] = '0.4.x'
 
   ender.fn = Ender.prototype // for easy compat to jQuery plugins
 
@@ -118,4 +118,4 @@
   // use subscript notation as extern for Closure compilation
   context['ender'] = context['$'] = ender
 
-}(this));
+}(this, window, document));
