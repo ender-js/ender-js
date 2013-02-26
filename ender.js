@@ -107,6 +107,7 @@
     return typeof (o = o.length) == 'number' && o === o ? o : false
   }
 
+<<<<<<< HEAD
   /**
    * @param  {*=}      item   selector|node|collection|callback|anything
    * @param  {Object=} root   node(s) from which to base selector queries
@@ -114,6 +115,15 @@
    */  
   function ender(item, root) {
     return new Ender(item, root)
+=======
+  Ender.prototype.$ = ender // handy reference to self
+
+  // dev tools secret sauce
+  Ender.prototype.splice = function () { throw new Error('Not implemented') }
+
+  function ender(s, r) {
+    return new Ender(s, r)
+>>>>>>> upstream/master
   }
     
   /**
@@ -150,7 +160,13 @@
   // Re: github.com/ender-js/ender-js/pull/17
   ender['fn'] = ender.prototype = Ender.prototype = {}
 
+<<<<<<< HEAD
   ender['fn']['$'] = ender // handy reference to self
+=======
+  ender['_VERSION'] = '0.4.5'
+
+  ender.fn = Ender.prototype // for easy compat to jQuery plugins
+>>>>>>> upstream/master
 
   ender['_VERSION'] = '0.4.x'
   
