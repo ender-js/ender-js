@@ -41,8 +41,9 @@
   }
   
   /**
+   * Discern an array-like object and get its length.
    * @param   {*}  o  is an item to count
-   * @return  {number|false}
+   * @return  {number|boolean}
    */
   function count(o) {
     if (typeof o != 'object' || !o || o.nodeType || o === window)
@@ -98,8 +99,13 @@
   // dev tools secret sauce
   Ender.prototype.splice = function () { throw new Error('Not implemented') }
 
-  function ender(s, r) {
-    return new Ender(s, r)
+  /**
+   * @param  {*=}      item   selector|node|collection|callback|anything
+   * @param  {Object=} root   node(s) from which to base selector queries
+   * @return {Ender}
+   */
+  function ender(item, root) {
+    return new Ender(item, root)
   }
 
   ender['_VERSION'] = '0.4.x'
@@ -134,6 +140,7 @@
 
   if (typeof module !== 'undefined' && module.exports) module.exports = ender
   // use subscript notation as extern for Closure compilation
+  // developers.google.com/closure/compiler/docs/api-tutorial3
   context['ender'] = context['$'] = ender
 
 }(this, window, document));
