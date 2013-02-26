@@ -85,26 +85,7 @@
     else for (this.length = i = i > 0 ? i >> 0 : 0; i--;)
       this[i] = item[i]
   }
-
-  /**
-   * @param   {function(*, number, Ender)} fn
-   * @param   {Object=} opt_scope
-   * @return  {Ender}
-   */
-  Ender.prototype['forEach'] = function (fn, opt_scope) {
-    var i, l
-    // opt out of native forEach so we can intentionally call our own scope
-    // defaulting to the current item and be able to return self
-    for (i = 0, l = this.length; i < l; ++i) i in this && fn.call(opt_scope || this[i], this[i], i, this)
-    // return self for chaining
-    return this
-  }
-
-  Ender.prototype.$ = ender // handy reference to self
-
-  // dev tools secret sauce
-  Ender.prototype.splice = function () { throw new Error('Not implemented') }
-
+  
   /**
    * @param  {*=}      item   selector|node|collection|callback|anything
    * @param  {Object=} root   node(s) from which to base selector queries
@@ -118,6 +99,25 @@
 
   // Sync the prototypes for jQuery compatibility
   ender['fn'] = ender.prototype = Ender.prototype 
+
+  Ender.prototype.$ = ender // handy reference to self
+
+  // dev tools secret sauce
+  Ender.prototype.splice = function () { throw new Error('Not implemented') }
+  
+  /**
+   * @param   {function(*, number, Ender)} fn
+   * @param   {Object=} opt_scope
+   * @return  {Ender}
+   */
+  Ender.prototype['forEach'] = function (fn, opt_scope) {
+    var i, l
+    // opt out of native forEach so we can intentionally call our own scope
+    // defaulting to the current item and be able to return self
+    for (i = 0, l = this.length; i < l; ++i) i in this && fn.call(opt_scope || this[i], this[i], i, this)
+    // return self for chaining
+    return this
+  }
 
   /**
    * @param {Object|Function} o
