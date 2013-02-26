@@ -21,14 +21,14 @@
     , oldRequire = context['require']
     , oldProvide = context['provide']
 
-  function require (identifier) {
+  function require(identifier) {
     // modules can be required from ender's build system, or found on the window
     var module = modules['$' + identifier] || window[identifier]
     if (!module) throw new Error("Ender Error: Requested module '" + identifier + "' has not been defined.")
     return module
   }
 
-  function provide (name, what) {
+  function provide(name, what) {
     return (modules['$' + name] = what)
   }
 
