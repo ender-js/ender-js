@@ -117,10 +117,12 @@
     aug(chain ? Ender.prototype : ender, o)
   }
 
+  /**
+   * @param {string=} s
+   * @param {Node=}   r
+   */
   ender['_select'] = function (s, r) {
-    if (typeof s == 'string') return (r || document).querySelectorAll(s)
-    if (s.nodeName) return [s]
-    return s
+    return s ? (r || document).querySelectorAll(s) : []
   }
   
   ender['_closure'] = function (fn) {
