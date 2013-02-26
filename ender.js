@@ -110,7 +110,8 @@
 
   ender['_VERSION'] = '0.4.x'
 
-  ender.fn = Ender.prototype // for easy compat to jQuery plugins
+  // Sync the prototypes for jQuery compatibility
+  ender['fn'] = ender.prototype = Ender.prototype 
 
   ender.ender = function (o, chain) {
     aug(chain ? Ender.prototype : ender, o)
