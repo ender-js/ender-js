@@ -118,25 +118,29 @@
   }
 
   /**
-   * @param {string=} s
+   * @param {string}  s
    * @param {Node=}   r
    */
   ender['_select'] = function (s, r) {
     return s ? (r || document).querySelectorAll(s) : []
   }
-  
+
   ender['_closure'] = function (fn) {
     fn.call(document, ender)
   }
 
-  // use callback to receive Ender's require & provide and remove them from global
-  ender['noConflict'] = function (callback) {
+  /**
+   * @param {(boolean|Function)=} fn  optional flag or callback
+   * To unclaim the global $, use no args. To unclaim *all* ender globals, 
+   * use `true` or a callback that receives (require, provide, ender)
+   */
+  ender['noConflict'] = function (fn) {
     context['$'] = old
-    if (callback) {
+    if (fn) {
       context['provide'] = oldProvide
       context['require'] = oldRequire
       context['ender'] = oldEnder
-      if (typeof callback == 'function') callback(require, provide, this)
+      typeof fn == 'function' && fn(require, provide, this)
     }
     return this
   }
