@@ -39,29 +39,44 @@
     for (var k in o2) k != 'noConflict' && k != '_VERSION' && (o[k] = o2[k])
     return o
   }
+  
+  /**
+   * @param   {*}  o  is an item to count
+   * @return  {number|false}
+   */
+  function count(o) {
+    if (typeof o != 'object' || !o || o.nodeType || o === window)
+      return false
+    return typeof (o = o.length) == 'number' && o === o ? o : false
+  }
 
   /**
-   * main Ender return object
    * @constructor
-   * @param {Array|Node|string} s a CSS selector or DOM node(s)
-   * @param {Array.|Node} r a root node(s)
-   */
-  function Ender(s, r) {
-    var elements
-      , i
+   * @param  {*=}      item   selector|node|collection|callback|anything
+   * @param  {Object=} root   node(s) from which to base selector queries
+   */  
+  function Ender(item, root) {
+    var i
+    this.length = 0 // Ensure that instance owns length
 
-    this.selector = s
-    // string || node || nodelist || window
-    if (typeof s == 'undefined') {
-      elements = []
-      this.selector = ''
-    } else if (typeof s == 'string' || s.nodeName || (s.length && 'item' in s) || s == window) {
-      elements = ender._select(s, r)
-    } else {
-      elements = isFinite(s.length) ? s : [s]
-    }
-    this.length = elements.length
-    for (i = this.length; i--;) this[i] = elements[i]
+    if (typeof item == 'string')
+      // Start @ strings so the result parlays into the other checks
+      // The .selector prop only applies to strings
+      item = ender._select(this.selector = item, root)
+
+    if (null == item)
+      return this // Do not wrap null|undefined
+
+    if (typeof item == 'function')
+      ender._closure(item, root)
+
+    // DOM node | scalar | not array-like
+    else if (false === (i = count(item)))
+      this[this.length++] = item
+
+    // Array-like - Bitwise ensures integer length:
+    else for (this.length = i = i > 0 ? i >> 0 : 0; i--;)
+      this[i] = item[i]
   }
 
   /**
@@ -100,7 +115,10 @@
     if (s.nodeName) return [s]
     return s
   }
-
+  
+  ender._closure = function (fn) {
+    fn.call(document, ender)
+  }
 
   // use callback to receive Ender's require & provide and remove them from global
   ender.noConflict = function (callback) {
