@@ -100,10 +100,10 @@
   // Sync the prototypes for jQuery compatibility
   ender['fn'] = ender.prototype = Ender.prototype 
 
-  Ender.prototype.$ = ender // handy reference to self
+  Ender.prototype['$'] = ender // handy reference to self
 
   // dev tools secret sauce
-  Ender.prototype.splice = function () { throw new Error('Not implemented') }
+  Ender.prototype['splice'] = function () { throw new Error('Not implemented') }
   
   /**
    * @param   {function(*, number, Ender)} fn
@@ -158,7 +158,7 @@
     return this
   }
 
-  if (typeof module !== 'undefined' && module.exports) module.exports = ender
+  if (typeof module !== 'undefined' && module['exports']) module['exports'] = ender
   // use subscript notation as extern for Closure compilation
   // developers.google.com/closure/compiler/docs/api-tutorial3
   context['ender'] = context['$'] = ender
