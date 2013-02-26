@@ -113,7 +113,7 @@
   // Sync the prototypes for jQuery compatibility
   ender['fn'] = ender.prototype = Ender.prototype 
 
-  ender.ender = function (o, chain) {
+  ender['ender'] = function (o, chain) {
     aug(chain ? Ender.prototype : ender, o)
   }
 
