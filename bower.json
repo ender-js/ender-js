@@ -1,0 +1,26 @@
+{
+    "name": "ender-js"
+  , "version": "0.5.0"
+  , "homepage": "https://github.com/ender-js/ender-js"
+  , "description": "CommonJS like Module system, ender glue"
+  , "main": "ender.js"
+  , "keywords": [
+      "ender"
+    , "commonjs"
+    , "require"
+    , "provide"
+  ]
+  , "authors": [
+      "Dustin Diaz <dustin@dustindiaz.com> (http://dustindiaz.com)"
+    , "Jacob Thornton <jacobthornton@gmail.com> (https://github.com/fat)"
+    , "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
+  ]
+  , "license": "MIT"
+  , "ignore": [
+      "**/.*"
+    , "node_modules"
+    , "bower_components"
+    , "tests"
+    , "make.js"
+  ]
+}
