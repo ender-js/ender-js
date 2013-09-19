@@ -17,4 +17,8 @@
   , "scripts": {
       "make": "node make.js"
     }
+  , "repository": {
+        "type": "git"
+      , "url": "https://github.com/ender-js/ender-js.git"
+    }
 }
