@@ -92,4 +92,5 @@ ender['_closure'] = function (fn) {
 }
 
 if (typeof module !== 'undefined' && module['exports']) module['exports'] = ender
-$ = ender
+var $ = ender
+
