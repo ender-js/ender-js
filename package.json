@@ -1,7 +1,7 @@
 {
     "name": "ender-core"
   , "description": "core client library of Ender"
-  , "version": "1.0.0"
+  , "version": "0.6.0"
   , "keywords": ["ender", "modules", "library", "framework", "packager"]
   , "main": "./ender.js"
   , "ender": {
@@ -9,9 +9,6 @@
       , "bridge": "./bridge.js"
     }
   , "homepage": "http://enderjs.com"
-  , "engines": {
-      "node": ">= 0.4.0"
-    }
   , "authors": [
         "Dustin Diaz <dustin@dustindiaz.com> (http://dustindiaz.com)"
       , "Jacob Thornton <jacobthornton@gmail.com> (https://github.com/fat)"

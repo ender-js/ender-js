@@ -5,33 +5,57 @@
   */
 
 /**
- * main Ender return object
  * @constructor
- * @param {Array|Node|string} s a CSS selector or DOM node(s)
- * @param {Array.|Node} r a root node(s)
- */
-function Ender(s, r) {
-  var elements
-    , i
+ * @param  {*=}      item      selector|node|collection|callback|anything
+ * @param  {Object=} root   node(s) from which to base selector queries
+ */  
+function Ender(item, root) {
+  var i
+  this.length = 0 // Ensure that instance owns length
 
-  this.selector = s
-  // string || node || nodelist || window
-  if (typeof s == 'undefined') {
-    elements = []
-    this.selector = ''
-  } else if (typeof s == 'string' || s.nodeName || (s.length && 'item' in s) || s == window) {
-    elements = ender._select(s, r)
-  } else {
-    elements = isFinite(s.length) ? s : [s]
-  }
-  this.length = elements.length
-  for (i = this.length; i--;) this[i] = elements[i]
+  if (typeof item == 'string')
+    // Start @ strings so the result parlays into the other checks
+    // The .selector prop only applies to strings
+    item = ender['_select'](this['selector'] = item, root)
+
+  if (null == item)
+    return this // Do not wrap null|undefined
+
+  if (typeof item == 'function')
+    ender['_closure'](item, root)
+
+  // DOM node | scalar | not array-like
+  else if (false === (i = (!item.nodeType && item !== window && isFinite(item.length) && item.length)))
+    this[this.length++] = item
+
+  // Array-like - Bitwise ensures integer length:
+  else for (this.length = i = i > 0 ? i >> 0 : 0; i--;)
+    this[i] = item[i]
 }
 
 /**
- * @param {function(el, i, inst)} fn
- * @param {Object} opt_scope
- * @returns {Ender}
+ * @param  {*=}      item   selector|node|collection|callback|anything
+ * @param  {Object=} root   node(s) from which to base selector queries
+ * @return {Ender}
+ */
+function ender(item, root) {
+  return new Ender(item, root)
+}
+
+ender['_VERSION'] = '0.4.x'
+
+// Sync the prototypes for jQuery compatibility
+ender['fn'] = ender.prototype = Ender.prototype 
+
+Ender.prototype['$'] = ender // handy reference to self
+
+// dev tools secret sauce
+Ender.prototype['splice'] = function () { throw new Error('Not implemented') }
+
+/**
+ * @param   {function(*, number, Ender)} fn
+ * @param   {Object=} opt_scope
+ * @return  {Ender}
  */
 Ender.prototype['forEach'] = function (fn, opt_scope) {
   var i, l
@@ -42,25 +66,30 @@ Ender.prototype['forEach'] = function (fn, opt_scope) {
   return this
 }
 
-Ender.prototype.$ = ender // handy reference to self
-
-
-function ender(s, r) {
-  return new Ender(s, r)
-}
-
-ender.fn = Ender.prototype // for easy compat to jQuery plugins
-
-ender.ender = function (o, chain) {
+/**
+ * @param {Object|Function} o
+ * @param {boolean=}        chain
+ */
+ender['ender'] = function (o, chain) {
   var o2 = (chain ? Ender.prototype : ender)
-  for (var k in o) k != 'noConflict' && k != '_VERSION' && (o2[k] = o[k])
+  for (var k in o) o2[k] = o[k]
   return o2
 }
 
-ender._select = function (s, r) {
-  if (typeof s == 'string') return (r || document).querySelectorAll(s)
-  if (s.nodeName) return [s]
-  return s
+/**
+ * @param {string}  s
+ * @param {Node=}   r
+ */
+ender['_select'] = function (s, r) {
+  return s ? (r || document).querySelectorAll(s) : []
 }
 
+/**
+ * @param {Function} fn
+ */
+ender['_closure'] = function (fn) {
+  fn.call(document, ender)
+}
+
+if (typeof module !== 'undefined' && module['exports']) module['exports'] = ender
 $ = ender
