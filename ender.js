@@ -8,7 +8,7 @@
  * @constructor
  * @param  {*=}      item      selector|node|collection|callback|anything
  * @param  {Object=} root   node(s) from which to base selector queries
- */  
+ */
 function Ender(item, root) {
   var i
   this.length = 0 // Ensure that instance owns length
@@ -18,11 +18,9 @@ function Ender(item, root) {
     // The .selector prop only applies to strings
     item = ender['_select'](this['selector'] = item, root)
 
-  if (null == item)
-    return this // Do not wrap null|undefined
+  if (null == item) return this // Do not wrap null|undefined
 
-  if (typeof item == 'function')
-    ender['_closure'](item, root)
+  if (typeof item == 'function') ender['_closure'](item, root)
 
   // DOM node | scalar | not array-like
   else if (typeof item != 'object' || item.nodeType || (i = item.length) !== +i || item == item.window)
@@ -42,10 +40,19 @@ function ender(item, root) {
   return new Ender(item, root)
 }
 
-ender['_VERSION'] = '0.4.x'
-
 // Sync the prototypes for jQuery compatibility
-ender['fn'] = ender.prototype = Ender.prototype 
+ender['fn'] = ender.prototype = Ender.prototype
+
+/**
+ * @enum {number} protects local symbols from being overwritten
+ */
+ender['reserved'] = {
+  reserved: 1,
+  ender: 1,
+  export: 1,
+  noConflict: 1,
+  fn: 1
+}
 
 Ender.prototype['$'] = ender // handy reference to self
 
@@ -71,8 +78,8 @@ Ender.prototype['forEach'] = function (fn, opt_scope) {
  * @param {boolean=}        chain
  */
 ender['ender'] = function (o, chain) {
-  var o2 = (chain ? Ender.prototype : ender)
-  for (var k in o) o2[k] = o[k]
+  var o2 = chain ? Ender.prototype : ender
+  for (var k in o) !(k in ender['reserved']) && (o2[k] = o[k])
   return o2
 }
 
