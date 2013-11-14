@@ -25,7 +25,7 @@ function Ender(item, root) {
     ender['_closure'](item, root)
 
   // DOM node | scalar | not array-like
-  else if (false === (i = (!item.nodeType && item !== window && isFinite(item.length) && item.length)))
+  else if (typeof item != 'object' || item.nodeType || (i = item.length) !== +i || item == item.window)
     this[this.length++] = item
 
   // Array-like - Bitwise ensures integer length:
