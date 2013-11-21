@@ -15,7 +15,7 @@
  */
 ender['noConflict'] = function (all) {
   window['$'] = ender.export.old['$']
-  if (all) for (var k in conflicts) window[k] = ender.export.old[k]
+  if (all) for (var k in ender.export.old) window[k] = ender.export.old[k]
   return this
 }
 
