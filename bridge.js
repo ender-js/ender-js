@@ -1,20 +1,23 @@
 /**
+ * @expose
  * @param {string} name
  * @param {*}      value
  */
-ender['expose'] = function (key, value) {
-  ender.expose.old[key] = window[key]
-  window[key] = value
+ender.expose = function (name, value) {
+  ender.expose.old[name] = window[name]
+  window[name] = value
 }
 
+/**
+ * @expose
+ */
 ender.expose.old = {}
 
 /**
- * @param {boolean} fn
- * To unclaim the global $, use no args. To unclaim *all* ender globals,
- * use `true`
+ * @expose
+ * @param {boolean} all   restore only $ or all ender globals
  */
-ender['noConflict'] = function (all) {
+ender.noConflict = function (all) {
   window['$'] = ender.expose.old['$']
   if (all) for (var k in ender.expose.old) window[k] = ender.expose.old[k]
   return this
