@@ -49,7 +49,7 @@ ender['fn'] = ender.prototype = Ender.prototype
 ender['reserved'] = {
   reserved: 1,
   ender: 1,
-  export: 1,
+  expose: 1,
   noConflict: 1,
   fn: 1
 }

@@ -2,12 +2,12 @@
  * @param {string} name
  * @param {*}      value
  */
-ender['export'] = function (key, value) {
-  ender.export.old[key] = window[key]
+ender['expose'] = function (key, value) {
+  ender.expose.old[key] = window[key]
   window[key] = value
 }
 
-ender.export.old = {}
+ender.expose.old = {}
 
 /**
  * @param {boolean} fn
@@ -15,10 +15,10 @@ ender.export.old = {}
  * use `true`
  */
 ender['noConflict'] = function (all) {
-  window['$'] = ender.export.old['$']
-  if (all) for (var k in ender.export.old) window[k] = ender.export.old[k]
+  window['$'] = ender.expose.old['$']
+  if (all) for (var k in ender.expose.old) window[k] = ender.expose.old[k]
   return this
 }
 
-ender.export('$', ender)
-ender.export('ender', ender)
+ender.expose('$', ender)
+ender.expose('ender', ender)
