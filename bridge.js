@@ -24,4 +24,4 @@ ender.noConflict = function (all) {
 }
 
 ender.expose('$', ender)
-ender.expose('ender', ender)
+ender.expose('ender', ender); // uglify needs this semi-colon between concating files
