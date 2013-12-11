@@ -1,7 +1,7 @@
 {
     "name": "ender-core"
   , "description": "core client library of Ender"
-  , "version": "0.6.0"
+  , "version": "1.0.0"
   , "keywords": ["ender", "modules", "library", "framework", "packager"]
   , "main": "./ender.js"
   , "ender": {
@@ -10,8 +10,8 @@
     }
   , "homepage": "http://enderjs.com"
   , "authors": [
-        "Dustin Diaz <dustin@dustindiaz.com> (http://dustindiaz.com)"
-      , "Jacob Thornton <jacobthornton@gmail.com> (https://github.com/fat)"
+        "Dustin Diaz (http://dustindiaz.com)"
+      , "Jacob Thornton (https://github.com/fat)"
     ]
   , "devDependencies": {
         "smoosh": "*"
