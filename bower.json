@@ -1,6 +1,6 @@
 {
     "name": "ender-js"
-  , "version": "0.5.0"
+  , "version": "0.5.1"
   , "homepage": "https://github.com/ender-js/ender-js"
   , "description": "CommonJS like Module system, ender glue"
   , "main": "ender.js"
