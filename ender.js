@@ -92,7 +92,8 @@ Ender.prototype.forEach = function (fn, scope) {
  */
 ender.ender = function (o, chain) {
   var o2 = chain ? Ender.prototype : ender
-  for (var k in o) !(k in ender._reserved) && (o2[k] = o[k])
+  for (var k in o) k in ender._reserved || (o2[k] = o[k])
+  if (!chain && o.fn) ender.ender(o.fn, true)
   return o2
 }
 
