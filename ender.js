@@ -4,7 +4,7 @@
   * http://ender.jit.su
   * License MIT
   */
-(function (context, window, document) {
+(function (context) {
 
   // a global object for node.js module compatiblity
   // ============================================
@@ -46,16 +46,6 @@
     for (var k in o2) k != 'noConflict' && k != '_VERSION' && (o[k] = o2[k])
     return o
   }
-  
-  /**
-   * @param   {*}  o  is an item to count
-   * @return  {number|boolean}
-   */
-  function count(o) {
-    if (typeof o != 'object' || !o || o.nodeType || o === window)
-      return false
-    return typeof (o = o.length) == 'number' && o === o ? o : false
-  }
 
   /**
    * @constructor
@@ -63,26 +53,18 @@
    * @param  {Object=} root   node(s) from which to base selector queries
    */  
   function Ender(item, root) {
+    // ensure that instance owns and maintains integer length
+    // start @ strings so that selector queries parlay into the other checks
     var i
-    this.length = 0 // Ensure that instance owns length
-
-    if (typeof item == 'string')
-      // Start @ strings so the result parlays into the other checks
-      // The .selector prop only applies to strings
-      item = ender['_select'](this['selector'] = item, root)
-
-    if (null == item)
-      return this // Do not wrap null|undefined
-
-    if (typeof item == 'function')
-      ender['_closure'](item, root)
-
-    // DOM node | scalar | not array-like
-    else if (false === (i = count(item)))
+    this.length = 0
+    if (typeof item == 'string') item = ender['_select'](this['selector'] = item, root)
+    if (null == item) return this
+    if (typeof item == 'function') ender['_closure'](item, root)
+    
+    // discern single items from array-likes
+    else if (typeof item != 'object' || item.nodeType || (i = item.length) !== +i || item == item.window)
       this[this.length++] = item
-
-    // Array-like - Bitwise ensures integer length:
-    else for (this.length = i = i > 0 ? i >> 0 : 0; i--;)
+    else for (this.length = i = i > 0 ? ~~i : 0; i--;)
       this[i] = item[i]
   }
   
@@ -95,14 +77,15 @@
     return new Ender(item, root)
   }
 
-  ender['_VERSION'] = '0.4.x'
+  // deprecated 
+  ender['_VERSION'] = '0.5.1'
 
   // Sync the prototypes for jQuery compatibility
   ender['fn'] = ender.prototype = Ender.prototype 
 
   Ender.prototype['$'] = ender // handy reference to self
 
-  // dev tools secret sauce
+  // make webkit dev tools pretty-print ender instances like arrays
   Ender.prototype['splice'] = function () { throw new Error('Not implemented') }
   
   /**
@@ -163,4 +146,4 @@
   // developers.google.com/closure/compiler/docs/api-tutorial3
   context['ender'] = context['$'] = ender
 
-}(this, window, document));
+}(this));
