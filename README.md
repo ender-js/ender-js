@@ -1,4 +1,4 @@
-#ENDER-CORE
+# ENDER-CORE
 
 This is the home of Ender's client code. It's what provides the glue for pulling together otherwise independent modules into a single cohesive library.
 
